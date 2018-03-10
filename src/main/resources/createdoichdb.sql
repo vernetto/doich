@@ -1,8 +1,53 @@
 create user DOICH identified by DOICH;
 GRANT CONNECT, RESOURCE, CREATE VIEW, CREATE TABLE TO DOICH;
 
-create table VOCABULARY (
-    ID NUMBER(10) PRIMARY KEY,
-    NAME VARCHAR2(50) NOT NULL
-);
+--------------------------------------------------------
+--  File created - Saturday-March-10-2018   
+--------------------------------------------------------
+DROP TABLE "VOCABULARY" cascade constraints;
+--------------------------------------------------------
+--  DDL for Table VOCABULARY
+--------------------------------------------------------
 
+  CREATE TABLE "VOCABULARY" 
+   (	"ID" NUMBER(10,0), 
+	"NAME" VARCHAR2(50), 
+	"GENRE" VARCHAR2(1), 
+	"TYPE" VARCHAR2(20), 
+	"TRANSLATION" VARCHAR2(100)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+REM INSERTING into VOCABULARY
+SET DEFINE OFF;
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (1,'Haus','M','NOUN','house');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (2,'Tasse','F','NOUN','cup');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (3,'gelegentlich',null,'ADVE','ooccasionally');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (4,'aufgeben',null,'VERB','give up');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (5,'ablösen',null,'VERB','detach');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (6,'Anzeichen','N','NOUN','sign');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (7,'vortäuschen',null,'VERB','simulate');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (8,'aufwand ',null,'VERB','expenditure');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (9,'ehrgeizig',null,'ADJE','ambitious');
+Insert into VOCABULARY (ID,NAME,GENRE,TYPE,TRANSLATION) values (10,'Verlegenheit',null,'NOUN','embarrassment');
+--------------------------------------------------------
+--  DDL for Index SYS_C0010048
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0010048" ON "VOCABULARY" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  Constraints for Table VOCABULARY
+--------------------------------------------------------
+
+  ALTER TABLE "VOCABULARY" ADD PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+  ALTER TABLE "VOCABULARY" MODIFY ("NAME" NOT NULL ENABLE);
