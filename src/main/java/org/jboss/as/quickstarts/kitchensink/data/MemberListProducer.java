@@ -26,6 +26,7 @@ import javax.inject.Named;
 import java.util.List;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 
 @RequestScoped
 public class MemberListProducer {
@@ -34,6 +35,7 @@ public class MemberListProducer {
     private MemberRepository memberRepository;
 
     private List<Member> members;
+    private List<Vocabulary> vocabularies;
 
     // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
     // Facelets or JSP view)
@@ -41,6 +43,12 @@ public class MemberListProducer {
     @Named
     public List<Member> getMembers() {
         return members;
+    }
+    
+    @Produces
+    @Named
+    public List<Vocabulary> getVocabularies() {
+        return vocabularies;
     }
 
     public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
@@ -50,5 +58,7 @@ public class MemberListProducer {
     @PostConstruct
     public void retrieveAllMembersOrderedByName() {
         members = memberRepository.findAllOrderedByName();
+        vocabularies = memberRepository.findAllVocabulary();
+        System.out.println("vocabularies found " + vocabularies.size());
     }
 }

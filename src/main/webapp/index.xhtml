@@ -19,6 +19,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome to JBoss!</h1>
@@ -27,7 +28,24 @@
             <p>You have successfully deployed a Java EE Enterprise
                 Application.</p>
         </div>
-
+<h:form>  
+    <p:growl id="messages" showDetail="false"/>
+ 
+    <h3 style="margin-top:0">Plain Menu</h3>
+    <p:menu>
+        <p:submenu label="Articles">
+            <p:menuitem value="Genre" url="mwn.jsf" icon="ui-icon-disk" />
+            <p:menuitem value="Update" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+        </p:submenu>
+        <p:submenu label="Non-Ajax">
+            <p:menuitem value="Delete" actionListener="#{menuView.delete}" update="messages" ajax="false" icon="ui-icon-close"/>
+        </p:submenu>
+        <p:submenu label="Navigations">
+            <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>
+            <p:menuitem value="Internal" url="http://www.primefaces.org" icon="ui-icon-star"/>
+        </p:submenu>
+    </p:menu>
+</h:form>    
         <h:form id="reg">
             <h2>Member Registration</h2>
             <p>Enforces annotation-based constraints defined on the
@@ -58,38 +76,24 @@
                 </h:panelGrid>
             </p>
         </h:form>
-        <h2>Members</h2>
-        <h:panelGroup rendered="#{empty members}">
-            <em>No registered members.</em>
+        <h2>Vocabularies</h2>
+        <h:panelGroup rendered="#{empty vocabularies}">
+            <em>No registered vocabularies.</em>
         </h:panelGroup>
-        <h:dataTable var="_member" value="#{members}"
-            rendered="#{not empty members}"
+
+        
+        <h:dataTable var="_vocabulary" value="#{vocabularies}"
+            rendered="#{not empty vocabularies}"
             styleClass="simpletablestyle">
             <h:column>
                 <f:facet name="header">Id</f:facet>
-                #{_member.id}
+                #{_vocabulary.id}
             </h:column>
             <h:column>
                 <f:facet name="header">Name</f:facet>
-                #{_member.name}
+                #{_vocabulary.name}
             </h:column>
-            <h:column>
-                <f:facet name="header">Email</f:facet>
-                #{_member.email}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Phone #</f:facet>
-                #{_member.phoneNumber}
-            </h:column>
-            <h:column>
-                <f:facet name="header">REST URL</f:facet>
-                <a
-                    href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>
-            </h:column>
-            <f:facet name="footer">
-            REST URL for all members: <a
-                    href="#{request.contextPath}/rest/members">/rest/members</a>
-            </f:facet>
         </h:dataTable>
+                
     </ui:define>
 </ui:composition>

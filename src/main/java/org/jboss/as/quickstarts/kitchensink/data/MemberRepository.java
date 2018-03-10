@@ -19,19 +19,23 @@ package org.jboss.as.quickstarts.kitchensink.data;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 
 @ApplicationScoped
 public class MemberRepository {
 
     @Inject
     private EntityManager em;
-
+    
     public Member findById(Long id) {
         return em.find(Member.class, id);
     }
@@ -48,13 +52,22 @@ public class MemberRepository {
     }
 
     public List<Member> findAllOrderedByName() {
+        return new ArrayList<Member>();
+    }
+    
+    public List<Vocabulary> findAllVocabulary() {
+    	System.out.println(em.toString());
+    	System.out.println(em.getProperties());
+    	System.out.println(em.getEntityManagerFactory().getProperties());
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
+        CriteriaQuery<Vocabulary> criteria = cb.createQuery(Vocabulary.class);
+        Root<Vocabulary> vocabulary = criteria.from(Vocabulary.class);
         // Swap criteria statements if you would like to try out type-safe criteria queries, a new
         // feature in JPA 2.0
         // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-        criteria.select(member).orderBy(cb.asc(member.get("name")));
-        return em.createQuery(criteria).getResultList();
+        criteria.select(vocabulary).orderBy(cb.asc(vocabulary.get("name")));
+        List<Vocabulary> result = em.createQuery(criteria).getResultList();
+        return result;
+    	
     }
 }
