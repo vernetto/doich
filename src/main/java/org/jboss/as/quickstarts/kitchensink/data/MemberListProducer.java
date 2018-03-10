@@ -34,8 +34,17 @@ public class MemberListProducer {
     @Inject
     private MemberRepository memberRepository;
 
-    private List<Member> members;
+    public void setVocabularies(List<Vocabulary> vocabularies) {
+		this.vocabularies = vocabularies;
+	}
+
+	public void setFilteredVocabularies(List<Vocabulary> filteredVocabularies) {
+		this.filteredVocabularies = filteredVocabularies;
+	}
+
+	private List<Member> members;
     private List<Vocabulary> vocabularies;
+    private List<Vocabulary> filteredVocabularies;
 
     // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
     // Facelets or JSP view)
@@ -51,6 +60,12 @@ public class MemberListProducer {
         return vocabularies;
     }
 
+    @Produces
+    @Named
+    public List<Vocabulary> getFilteredVocabularies() {
+        return filteredVocabularies;
+    }
+    
     public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
         retrieveAllMembersOrderedByName();
     }

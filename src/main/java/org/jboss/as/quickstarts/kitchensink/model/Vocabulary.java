@@ -19,6 +19,8 @@ package org.jboss.as.quickstarts.kitchensink.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -43,8 +45,41 @@ public class Vocabulary implements Serializable {
     @NotEmpty
     @Size(min = 1, max = 50)
     private String name;
+    
+    @Enumerated(EnumType.STRING)
+    private VocabularyGenre genre;
+    
+    @Enumerated(EnumType.STRING)
+    private VocabularyType type;
+    
+    private String translation;
+    
 
-    public Long getId() {
+    public VocabularyGenre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(VocabularyGenre genre) {
+		this.genre = genre;
+	}
+
+	public VocabularyType getType() {
+		return type;
+	}
+
+	public void setType(VocabularyType type) {
+		this.type = type;
+	}
+
+	public String getTranslation() {
+		return translation;
+	}
+
+	public void setTranslation(String translation) {
+		this.translation = translation;
+	}
+
+	public Long getId() {
         return id;
     }
 

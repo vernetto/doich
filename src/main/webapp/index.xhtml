@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/WEB-INF/templates/default.xhtml">
-    <ui:define name="content">
-        <h1>Welcome to DOICH! The place to learn German</h1>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Welcome to DOICH! The place to learn German</h1>
 
-<h:form>  
-    <p:growl id="messages" showDetail="false"/>
- 
-    <h3 style="margin-top:0">Main Menu</h3>
-    <p:menu>
-        <p:submenu label="Grammar">
-            <p:menuitem value="Genre" url="genre.jsf" icon="ui-icon-disk" />
-            <p:menuitem value="Declination" url="declination.jsf"  icon="ui-icon-arrowrefresh-1-w"/>
-        </p:submenu>
-        <p:submenu label="Nouns">
-            <p:menuitem value="Meaning" url="meaning.jsf" icon="ui-icon-close"/>
-        </p:submenu>
-    </p:menu>
-</h:form>    
+		<h:form>
+			<p:growl id="messages" showDetail="false" />
 
-        <h2>Vocabularies</h2>
-        <h:panelGroup rendered="#{empty vocabularies}">
-            <em>No registered vocabularies.</em>
-        </h:panelGroup>
+			<h3 style="margin-top: 0">Main Menu</h3>
+			<p:menu>
+				<p:submenu label="Grammar">
+					<p:menuitem value="Genre" url="genre.jsf" icon="ui-icon-disk" />
+					<p:menuitem value="Declination" url="declination.jsf"
+						icon="ui-icon-arrowrefresh-1-w" />
+				</p:submenu>
+				<p:submenu label="Nouns">
+					<p:menuitem value="Meaning" url="meaning.jsf" icon="ui-icon-close" />
+				</p:submenu>
+			</p:menu>
+		</h:form>
 
-        
-        <h:dataTable var="_vocabulary" value="#{vocabularies}"
-            rendered="#{not empty vocabularies}"
-            styleClass="simpletablestyle">
-            <h:column>
-                <f:facet name="header">Id</f:facet>
-                #{_vocabulary.id}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{_vocabulary.name}
-            </h:column>
-        </h:dataTable>
-                
-    </ui:define>
+		<h2>Vocabularies</h2>
+		<h:panelGroup rendered="#{empty vocabularies}">
+			<em>No registered vocabularies.</em>
+		</h:panelGroup>
+
+<h:form>
+		<p:dataTable var="_vocabulary" value="#{vocabularies}" filteredValue="#{filteredVocabularies}" 
+			rendered="#{not empty vocabularies}" styleClass="simpletablestyle" windgetVar="vocabularyTable">
+			<p:column headerText="id">
+				<h:outputText value="#{_vocabulary.id}" />
+			</p:column>
+			<p:column headerText="name" filterBy="#{_vocabulary.name}" filterMatchMode="contains" footerText="contains">
+				<h:outputText value="#{_vocabulary.name}" />
+			</p:column>
+			<p:column headerText="type">
+				<h:outputText value="#{_vocabulary.type}" />
+			</p:column>
+			<p:column headerText="genre">
+				<h:outputText value="#{_vocabulary.genre}" />
+			</p:column>
+			<p:column headerText="translation">
+				<h:outputText value="#{_vocabulary.translation}" />
+			</p:column>
+		</p:dataTable>
+</h:form>
+	</ui:define>
 </ui:composition>
