@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8"/>
-<title>Männlich Weiblich Neutrum</title>
-</head>
-<body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/testgenre.xhtml">
+	    <ui:define name="head">
+        <style type="text/css">
+            .ui-datatable-header {
+                height: 30px
+            }
+        </style>
+    </ui:define>
+	<ui:define name="content">
+		<h1>Der die das</h1>
+		<h:form>
+			<p:dataTable id="dtVocabulary" var="_vocabulary" value="#{genreView.nouns}"
+				filteredValue="#{filteredTest}"
+				styleClass="simpletablestyle" widgetVar="vocabularyTable">
 
-</body>
-</html>
+				<p:column headerText="id">
+					<h:outputText value="#{_vocabulary.id}" />
+				</p:column>
+				<p:column headerText="article">
+					<h:outputText value="#{_vocabulary.correctAnswer}" />
+				</p:column>
+				
+				<p:column headerText="answer">
+				       <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{_vocabulary.answer}" /></f:facet>
+               <f:facet name="input">
+                   <h:selectOneMenu value="#{_vocabulary.answer}" style="width:100%">
+                       <f:selectItems value="#{genreView.derdiedas}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+                   </h:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+				
+				</p:column>
+
+				<p:column headerText="name" filterBy="#{_vocabulary.name}"
+					filterMatchMode="contains" footerText="contains">
+					<h:outputText value="#{_vocabulary.name}" />
+				</p:column>
+				<p:column headerText="genre">
+					<h:outputText value="#{_vocabulary.genre}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

@@ -30,25 +30,28 @@
 			<em>No registered vocabularies.</em>
 		</h:panelGroup>
 
-<h:form>
-		<p:dataTable var="_vocabulary" value="#{vocabularies}" filteredValue="#{filteredVocabularies}" 
-			rendered="#{not empty vocabularies}" styleClass="simpletablestyle" windgetVar="vocabularyTable">
-			<p:column headerText="id">
-				<h:outputText value="#{_vocabulary.id}" />
-			</p:column>
-			<p:column headerText="name" filterBy="#{_vocabulary.name}" filterMatchMode="contains" footerText="contains">
-				<h:outputText value="#{_vocabulary.name}" />
-			</p:column>
-			<p:column headerText="type">
-				<h:outputText value="#{_vocabulary.type}" />
-			</p:column>
-			<p:column headerText="genre">
-				<h:outputText value="#{_vocabulary.genre}" />
-			</p:column>
-			<p:column headerText="translation">
-				<h:outputText value="#{_vocabulary.translation}" />
-			</p:column>
-		</p:dataTable>
-</h:form>
+		<h:form>
+			<p:dataTable var="_vocabulary" value="#{vocabularies}"
+				filteredValue="#{filteredVocabularies}"
+				rendered="#{not empty vocabularies}" styleClass="simpletablestyle"
+				windgetVar="vocabularyTable">
+				<p:column headerText="id">
+					<h:outputText value="#{_vocabulary.id}" />
+				</p:column>
+				<p:column headerText="name" filterBy="#{_vocabulary.name}"
+					filterMatchMode="contains" footerText="contains">
+					<h:outputText value="#{_vocabulary.name}" />
+				</p:column>
+				<p:column headerText="type">
+					<h:outputText value="#{_vocabulary.type}" />
+				</p:column>
+				<p:column headerText="genre">
+					<h:outputText value="#{_vocabulary.genre}" />
+				</p:column>
+				<p:column headerText="translation">
+					<h:outputText value="#{_vocabulary.translation}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

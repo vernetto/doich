@@ -16,6 +16,8 @@
  */
 package org.jboss.as.quickstarts.kitchensink.controller;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
@@ -25,6 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
@@ -44,6 +47,16 @@ public class MemberController {
     @Named
     private Member newMember;
 
+    
+    @Produces
+    @Named
+    private List<Vocabulary> vocabularyUnderTest;
+    
+    public List<Vocabulary> getVocabularyUnderTest() {
+    	return null;
+    }
+    
+    
     @PostConstruct
     public void initNewMember() {
         newMember = new Member();

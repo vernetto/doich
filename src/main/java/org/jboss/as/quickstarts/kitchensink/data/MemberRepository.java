@@ -16,22 +16,26 @@
  */
 package org.jboss.as.quickstarts.kitchensink.data;
 
-import javax.enterprise.context.ApplicationScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+//import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
+import org.jboss.as.quickstarts.kitchensink.model.VocabularyType;
 
 @ApplicationScoped
-public class MemberRepository {
+@ManagedBean(name = "memberRepository")
+public class MemberRepository implements Serializable {
 
     @Inject
     private EntityManager em;
@@ -56,9 +60,6 @@ public class MemberRepository {
     }
     
     public List<Vocabulary> findAllVocabulary() {
-    	System.out.println(em.toString());
-    	System.out.println(em.getProperties());
-    	System.out.println(em.getEntityManagerFactory().getProperties());
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Vocabulary> criteria = cb.createQuery(Vocabulary.class);
         Root<Vocabulary> vocabulary = criteria.from(Vocabulary.class);
@@ -68,6 +69,19 @@ public class MemberRepository {
         criteria.select(vocabulary).orderBy(cb.asc(vocabulary.get("name")));
         List<Vocabulary> result = em.createQuery(criteria).getResultList();
         return result;
-    	
     }
+    
+    public List<Vocabulary> findVocabularyByType(VocabularyType type, int maxresult) {
+    	System.out.printf("findVocabularyByType %s %s", type, maxresult);
+    	List<Vocabulary> result = em.createQuery("SELECT v FROM Vocabulary v WHERE v.type LIKE :voctype", Vocabulary.class)
+    		    .setParameter("voctype", type)
+    		    .setMaxResults(maxresult)
+    		    .getResultList();
+    	return result;
+    }
+    
+    public List<Vocabulary> findVocabularyNoun() {
+    	return findVocabularyByType(VocabularyType.NOUN, 10);
+    }
+    
 }

@@ -24,6 +24,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,7 +38,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "ID"), name="VOCABULARY")
 public class Vocabulary implements Serializable {
 
-    @Id
+    public Vocabulary(Long id, String name, VocabularyGenre genre, VocabularyType type, String translation) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.genre = genre;
+		this.type = type;
+		this.translation = translation;
+	}
+
+	@Id
     @GeneratedValue
     private Long id;
 
@@ -45,8 +55,21 @@ public class Vocabulary implements Serializable {
     @NotEmpty
     @Size(min = 1, max = 50)
     private String name;
-    
-    @Enumerated(EnumType.STRING)
+
+    @Transient
+    private String answer;
+    public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	public Vocabulary() {
+		super();
+	}
+
+	@Enumerated(EnumType.STRING)
     private VocabularyGenre genre;
     
     @Enumerated(EnumType.STRING)
@@ -94,5 +117,17 @@ public class Vocabulary implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public boolean isMasculine() {
+		return getGenre() != null && getGenre().equals(VocabularyGenre.M);
+	}
+	public boolean isFeminine() {
+		return getGenre() != null && getGenre().equals(VocabularyGenre.F);
+	}
+	public boolean isNeutrum() {
+		return getGenre() != null && getGenre().equals(VocabularyGenre.N);
+	}
+	
+	
 
 }
