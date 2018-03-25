@@ -35,10 +35,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @SuppressWarnings("serial")
 @Entity
 @XmlRootElement
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "ID"), name="VOCABULARY")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "ID"), name = "VOCABULARY")
 public class Vocabulary implements Serializable {
 
-    public Vocabulary(Long id, String name, VocabularyGenre genre, VocabularyType type, String translation) {
+	public Vocabulary(Long id, String name, VocabularyGenre genre, VocabularyType type, String translation) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -48,19 +48,21 @@ public class Vocabulary implements Serializable {
 	}
 
 	@Id
-    @GeneratedValue
-    private Long id;
+	@GeneratedValue
+	private Long id;
 
-    @NotNull
-    @NotEmpty
-    @Size(min = 1, max = 50)
-    private String name;
+	@NotNull
+	@NotEmpty
+	@Size(min = 1, max = 50)
+	private String name;
 
-    @Transient
-    private String answer;
-    public String getAnswer() {
+	@Transient
+	private String answer;
+
+	public String getAnswer() {
 		return answer;
 	}
+
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
@@ -70,15 +72,14 @@ public class Vocabulary implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-    private VocabularyGenre genre;
-    
-    @Enumerated(EnumType.STRING)
-    private VocabularyType type;
-    
-    private String translation;
-    
+	private VocabularyGenre genre;
 
-    public VocabularyGenre getGenre() {
+	@Enumerated(EnumType.STRING)
+	private VocabularyType type;
+
+	private String translation;
+
+	public VocabularyGenre getGenre() {
 		return genre;
 	}
 
@@ -103,31 +104,31 @@ public class Vocabulary implements Serializable {
 	}
 
 	public Long getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public boolean isMasculine() {
 		return getGenre() != null && getGenre().equals(VocabularyGenre.M);
 	}
+
 	public boolean isFeminine() {
 		return getGenre() != null && getGenre().equals(VocabularyGenre.F);
 	}
+
 	public boolean isNeutrum() {
 		return getGenre() != null && getGenre().equals(VocabularyGenre.N);
 	}
-	
-	
 
 }

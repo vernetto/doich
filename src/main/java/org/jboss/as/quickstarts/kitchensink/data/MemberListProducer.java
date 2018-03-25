@@ -31,10 +31,10 @@ import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 @RequestScoped
 public class MemberListProducer {
 
-    @Inject
-    private MemberRepository memberRepository;
+	@Inject
+	private MemberRepository memberRepository;
 
-    public void setVocabularies(List<Vocabulary> vocabularies) {
+	public void setVocabularies(List<Vocabulary> vocabularies) {
 		this.vocabularies = vocabularies;
 	}
 
@@ -43,37 +43,38 @@ public class MemberListProducer {
 	}
 
 	private List<Member> members;
-    private List<Vocabulary> vocabularies;
-    private List<Vocabulary> filteredVocabularies;
+	private List<Vocabulary> vocabularies;
+	private List<Vocabulary> filteredVocabularies;
 
-    // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
-    // Facelets or JSP view)
-    @Produces
-    @Named
-    public List<Member> getMembers() {
-        return members;
-    }
-    
-    @Produces
-    @Named
-    public List<Vocabulary> getVocabularies() {
-        return vocabularies;
-    }
+	// @Named provides access the return value via the EL variable name "members" in
+	// the UI (e.g.
+	// Facelets or JSP view)
+	@Produces
+	@Named
+	public List<Member> getMembers() {
+		return members;
+	}
 
-    @Produces
-    @Named
-    public List<Vocabulary> getFilteredVocabularies() {
-        return filteredVocabularies;
-    }
-    
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-        retrieveAllMembersOrderedByName();
-    }
+	@Produces
+	@Named
+	public List<Vocabulary> getVocabularies() {
+		return vocabularies;
+	}
 
-    @PostConstruct
-    public void retrieveAllMembersOrderedByName() {
-        members = memberRepository.findAllOrderedByName();
-        vocabularies = memberRepository.findAllVocabulary();
-        System.out.println("vocabularies found " + vocabularies.size());
-    }
+	@Produces
+	@Named
+	public List<Vocabulary> getFilteredVocabularies() {
+		return filteredVocabularies;
+	}
+
+	public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
+		retrieveAllMembersOrderedByName();
+	}
+
+	@PostConstruct
+	public void retrieveAllMembersOrderedByName() {
+		members = memberRepository.findAllOrderedByName();
+		vocabularies = memberRepository.findAllVocabulary();
+		System.out.println("vocabularies found " + vocabularies.size());
+	}
 }

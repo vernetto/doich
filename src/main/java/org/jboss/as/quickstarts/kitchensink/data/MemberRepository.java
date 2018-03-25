@@ -37,51 +37,52 @@ import org.jboss.as.quickstarts.kitchensink.model.VocabularyType;
 @ManagedBean(name = "memberRepository")
 public class MemberRepository implements Serializable {
 
-    @Inject
-    private EntityManager em;
-    
-    public Member findById(Long id) {
-        return em.find(Member.class, id);
-    }
+	@Inject
+	private EntityManager em;
 
-    public Member findByEmail(String email) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
-        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
-        // feature in JPA 2.0
-        // criteria.select(member).where(cb.equal(member.get(Member_.email), email));
-        criteria.select(member).where(cb.equal(member.get("email"), email));
-        return em.createQuery(criteria).getSingleResult();
-    }
+	public Member findById(Long id) {
+		return em.find(Member.class, id);
+	}
 
-    public List<Member> findAllOrderedByName() {
-        return new ArrayList<Member>();
-    }
-    
-    public List<Vocabulary> findAllVocabulary() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Vocabulary> criteria = cb.createQuery(Vocabulary.class);
-        Root<Vocabulary> vocabulary = criteria.from(Vocabulary.class);
-        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
-        // feature in JPA 2.0
-        // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-        criteria.select(vocabulary).orderBy(cb.asc(vocabulary.get("name")));
-        List<Vocabulary> result = em.createQuery(criteria).getResultList();
-        return result;
-    }
-    
-    public List<Vocabulary> findVocabularyByType(VocabularyType type, int maxresult) {
-    	System.out.printf("findVocabularyByType %s %s", type, maxresult);
-    	List<Vocabulary> result = em.createQuery("SELECT v FROM Vocabulary v WHERE v.type LIKE :voctype", Vocabulary.class)
-    		    .setParameter("voctype", type)
-    		    .setMaxResults(maxresult)
-    		    .getResultList();
-    	return result;
-    }
-    
-    public List<Vocabulary> findVocabularyNoun() {
-    	return findVocabularyByType(VocabularyType.NOUN, 10);
-    }
-    
+	public Member findByEmail(String email) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
+		Root<Member> member = criteria.from(Member.class);
+		// Swap criteria statements if you would like to try out type-safe criteria
+		// queries, a new
+		// feature in JPA 2.0
+		// criteria.select(member).where(cb.equal(member.get(Member_.email), email));
+		criteria.select(member).where(cb.equal(member.get("email"), email));
+		return em.createQuery(criteria).getSingleResult();
+	}
+
+	public List<Member> findAllOrderedByName() {
+		return new ArrayList<Member>();
+	}
+
+	public List<Vocabulary> findAllVocabulary() {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Vocabulary> criteria = cb.createQuery(Vocabulary.class);
+		Root<Vocabulary> vocabulary = criteria.from(Vocabulary.class);
+		// Swap criteria statements if you would like to try out type-safe criteria
+		// queries, a new
+		// feature in JPA 2.0
+		// criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
+		criteria.select(vocabulary).orderBy(cb.asc(vocabulary.get("name")));
+		List<Vocabulary> result = em.createQuery(criteria).getResultList();
+		return result;
+	}
+
+	public List<Vocabulary> findVocabularyByType(VocabularyType type, int maxresult) {
+		System.out.printf("findVocabularyByType %s %s", type, maxresult);
+		List<Vocabulary> result = em
+				.createQuery("SELECT v FROM Vocabulary v WHERE v.type LIKE :voctype", Vocabulary.class)
+				.setParameter("voctype", type).setMaxResults(maxresult).getResultList();
+		return result;
+	}
+
+	public List<Vocabulary> findVocabularyNoun() {
+		return findVocabularyByType(VocabularyType.NOUN, 10);
+	}
+
 }
