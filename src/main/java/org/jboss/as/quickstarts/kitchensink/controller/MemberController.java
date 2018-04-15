@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.kitchensink.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ import javax.inject.Named;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
+import org.jboss.as.quickstarts.kitchensink.model.VocabularyType;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
@@ -46,6 +48,10 @@ public class MemberController {
 	@Produces
 	@Named
 	private Member newMember;
+	
+	@Produces
+	@Named
+	private Vocabulary newVocabulary;
 
 	@Produces
 	@Named
@@ -56,9 +62,22 @@ public class MemberController {
 	}
 
 	@PostConstruct
+	public void init() {
+		initNewMember();
+		initNewVocabulary();
+	}
+
 	public void initNewMember() {
 		newMember = new Member();
 	}
+	
+	public void initNewVocabulary() {
+		newVocabulary = new Vocabulary();
+		newVocabulary.setAcquired(0);
+		newVocabulary.setRepetitions(0L);
+		newVocabulary.setAddedon(new Date());
+	}
+	
 
 	public void register() throws Exception {
 		try {
@@ -69,6 +88,19 @@ public class MemberController {
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
+			facesContext.addMessage(null, m);
+		}
+	}
+	
+	public void addNoun() throws Exception {
+		try {
+			memberRegistration.addNoun(newVocabulary);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added!", "Insert successful");
+			facesContext.addMessage(null, m);
+			initNewVocabulary();
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Insert unsuccessful");
 			facesContext.addMessage(null, m);
 		}
 	}

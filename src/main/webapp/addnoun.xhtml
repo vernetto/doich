@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/testgenre.xhtml">
+	<ui:define name="head">
+		<style type="text/css">
+.ui-datatable-header {
+	height: 30px
+}
+</style>
+	</ui:define>
+	<ui:define name="content">
+		<h1>Add noun</h1>
+		<ui:debug hotkey="k" />
+		<h:form id="addnoun">
+			<p:panel header="Add noun" style="margin-bottom:10px;">
+				<h:panelGrid columns="2">
+					<h:outputLabel for="name" value="Name:" />
+					<h:inputText id="name" value="#{newVocabulary.name}" />
+					
+					<p:outputLabel for="type" value="Type: " />
+					<p:selectOneMenu id="type" value="#{newVocabulary.type}">
+						<f:selectItem itemLabel="Select Type" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{addnounView.types}" />
+					</p:selectOneMenu>
+					
+
+					<p:outputLabel for="genre" value="Genre: " />
+					<p:selectOneMenu id="genre" value="#{newVocabulary.genre}">
+						<f:selectItem itemLabel="Select Genre" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{addnounView.genres}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="translation" value="translation" />
+					<h:inputText id="translation" value="#{newVocabulary.translation}" />
+				</h:panelGrid>
+
+				<p:separator />
+
+				<h:commandButton id="register" action="#{memberController.addNoun}"
+					value="Register" styleClass="register" />
+
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+

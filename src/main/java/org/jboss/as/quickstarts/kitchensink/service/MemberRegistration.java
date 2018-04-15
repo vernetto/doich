@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.kitchensink.service;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -41,5 +42,11 @@ public class MemberRegistration {
         log.info("Registering " + member.getName());
         em.persist(member);
         memberEventSrc.fire(member);
+    }
+    
+
+    public void addNoun(Vocabulary vocabulary) throws Exception {
+        log.info("Registering " + vocabulary.getName());
+        em.persist(vocabulary);
     }
 }

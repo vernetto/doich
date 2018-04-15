@@ -32,6 +32,7 @@ import javax.persistence.criteria.Root;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 import org.jboss.as.quickstarts.kitchensink.model.VocabularyType;
+import org.jboss.as.quickstarts.kitchensink.model.WordFill;
 
 @ApplicationScoped
 @ManagedBean(name = "memberRepository")
@@ -83,6 +84,19 @@ public class MemberRepository implements Serializable {
 
 	public List<Vocabulary> findVocabularyNoun() {
 		return findVocabularyByType(VocabularyType.NOUN, 10);
+	}
+	
+	public List<WordFill> findAllWordFill() {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<WordFill> criteria = cb.createQuery(WordFill.class);
+		Root<WordFill> wordfill = criteria.from(WordFill.class);
+		// Swap criteria statements if you would like to try out type-safe criteria
+		// queries, a new
+		// feature in JPA 2.0
+		// criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
+		criteria.select(wordfill).orderBy(cb.asc(wordfill.get("id")));
+		List<WordFill> result = em.createQuery(criteria).getResultList();
+		return result;
 	}
 
 }

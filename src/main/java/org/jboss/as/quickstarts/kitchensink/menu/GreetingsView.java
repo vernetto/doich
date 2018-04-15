@@ -13,20 +13,20 @@ import javax.xml.transform.stream.StreamSource;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 import org.jboss.as.quickstarts.kitchensink.model.Vocabulary;
 import org.jboss.as.quickstarts.kitchensink.model.VocabularyGenre;
+import org.jboss.as.quickstarts.kitchensink.model.WordFill;
 
-@ManagedBean(name = "genreView")
+@ManagedBean(name = "greetingsView")
 @ViewScoped
-public class GenreView {
+public class GreetingsView {
 
 	@ManagedProperty("#{memberRepository}")
 	private MemberRepository memberRepository;
 	@ManagedProperty("#{grammarRules}")
 	private GrammarRules grammarRules;
 
-	private List<TestGenre> nouns;
-	private List<TestGenre> filteredTest;
+	private List<WordFill> wordfills;
+	private List<WordFill> filteredWordfills;
 	
-	private boolean showGenre = false;
 	private boolean showCorrectAnswer = false;
 	
 	private long total;
@@ -34,9 +34,31 @@ public class GenreView {
 	private long totalWrong;
 	private long correctPercentage;
 	
+	private String testInputMask = "Guten M";
+	
+
+	public List<WordFill> getFilteredWordfills() {
+		return filteredWordfills;
+	}
+
+	public void setFilteredWordfills(List<WordFill> filteredWordfills) {
+		this.filteredWordfills = filteredWordfills;
+	}
+
+	public String getTestInputMask() {
+		return testInputMask;
+	}
+
+	public void setTestInputMask(String testInputMask) {
+		this.testInputMask = testInputMask;
+	}
+
+	public void setTotal(long total) {
+		this.total = total;
+	}
 
 	public int getTotal() {
-		return nouns.size();
+		return wordfills.size();
 	}
 
 	public void setTotal(int total) {
@@ -44,7 +66,7 @@ public class GenreView {
 	}
 
 	public long getTotalCorrect() {
-		return nouns.stream().filter(noun -> noun.isAnswerIsCorrect()).count();
+		return wordfills.stream().filter(noun -> noun.isAnswerIsCorrect()).count();
 	}
 
 	public void setTotalCorrect(long totalCorrect) {
@@ -52,7 +74,7 @@ public class GenreView {
 	}
 
 	public long getTotalWrong() {
-		return nouns.stream().filter(noun -> !noun.isAnswerIsCorrect()).count();
+		return wordfills.stream().filter(noun -> !noun.isAnswerIsCorrect()).count();
 	}
 
 	public void setTotalWrong(long totalWrong) {
@@ -75,14 +97,6 @@ public class GenreView {
 		return grammarRules;
 	}
 
-	public boolean isShowGenre() {
-		return showGenre;
-	}
-
-	public void setShowGenre(boolean showGenre) {
-		this.showGenre = showGenre;
-	}
-
 	public boolean isShowCorrectAnswer() {
 		return showCorrectAnswer;
 	}
@@ -91,42 +105,27 @@ public class GenreView {
 		this.showCorrectAnswer = showCorrectAnswer;
 	}
 
-	public List<TestGenre> getFilteredTest() {
-		return filteredTest;
+	public List<WordFill> getFilteredTest() {
+		return filteredWordfills;
 	}
 
-	public void setFilteredTest(List<TestGenre> filteredTest) {
-		this.filteredTest = filteredTest;
+	public void setFilteredTest(List<WordFill> filteredTest) {
+		this.filteredWordfills = filteredTest;
 	}
 
 	@PostConstruct
 	public void init() {
-		System.out.println("GenreView init");
-		nouns = new ArrayList<TestGenre>();
-		// nouns.add(new Vocabulary(1L, "A", VocabularyGenre.M, VocabularyType.NOUN,
-		// "bla"));
-		List<Vocabulary> vocabularies = memberRepository.findVocabularyNoun();
-		int index = 0;
-		for (Vocabulary vocabulary : vocabularies) {
-			TestGenre genre = new TestGenre();
-			genre.setId(vocabulary.getId());
-			genre.setIndex(++index);
-			genre.setAnswer("");
-			genre.setCorrectAnswer(grammarRules.derdiedas(vocabulary));
-			genre.setName(vocabulary.getName());
-			VocabularyGenre genre2 = vocabulary.getGenre();
-			genre.setGenre(genre2 != null ? genre2.name() : "");
-			nouns.add(genre);
-		}
-		System.out.println("GenreView init, nouns retrieved " + nouns.size());
+		System.out.println("GreetingsView init");
+		wordfills = memberRepository.findAllWordFill();
+		System.out.println("GreetingsView init, wordfills retrieved " + wordfills.size());
 	}
 
-	public List<TestGenre> getNouns() {
-		return nouns;
+	public List<WordFill> getWordfills() {
+		return wordfills;
 	}
 
-	public void setNouns(List<TestGenre> nouns) {
-		this.nouns = nouns;
+	public void setWordfills(List<WordFill> wordfills) {
+		this.wordfills = wordfills;
 	}
 
 	public void setMemberRepository(MemberRepository memberRepository) {
@@ -137,8 +136,5 @@ public class GenreView {
 		this.grammarRules = grammarRules;
 	}
 
-	public List<String> getDerdiedas() {
-		return Arrays.asList("der", "die", "das");
-	}
 
 }
